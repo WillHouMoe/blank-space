@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Empty State Placeholder</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 24px;
+        display: grid;
+        place-items: center;
+        background: light-dark(rgb(247 248 250), rgb(16 17 20));
+      }
+
+      body > #empty-state {
+        max-width: 720px;
+      }
+
+      @media (max-width: 520px) {
+        body {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+<div id="empty-state" data-variant="layers">
+  <style>
+    #empty-state {
+      --es-size: 240px;
+      --es-accent: #5b7cfa;
+      --es-surface: light-dark(rgb(255 255 255), rgb(27 28 33));
+      --es-line: light-dark(rgb(232 234 240), rgb(48 50 58));
+      --es-card: light-dark(rgb(245 246 250), rgb(45 48 58));
+      --es-card-front: light-dark(rgb(255 255 255), rgb(62 66 78));
+      --es-stroke: light-dark(rgb(222 226 235), rgb(92 98 114));
+      --es-shadow: light-dark(rgb(15 23 42 / 11%), rgb(0 0 0 / 55%));
+      --es-halo: color-mix(in oklab, var(--es-accent) 8%, transparent);
+
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      color-scheme: light dark;
+    }
+
+    #empty-state .es-panel {
+      display: grid;
+      place-items: center;
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 340px;
+      padding: 36px 24px;
+      border: 1px solid var(--es-line);
+      border-radius: 24px;
+      background-color: var(--es-surface);
+      background-image: radial-gradient(
+        118% 88% at 50% 42%,
+        var(--es-halo),
+        transparent 68%
+      );
+      box-shadow:
+        0 1px 2px var(--es-shadow),
+        0 20px 44px -30px var(--es-shadow);
+      overflow: hidden;
+    }
+
+    #empty-state .es-stage {
+      width: min(var(--es-size), 62vw);
+      aspect-ratio: 1 / 1;
+    }
+
+    #empty-state .es-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    #empty-state .es-v {
+      display: none;
+    }
+
+    #empty-state[data-variant="layers"] .es-layers,
+    #empty-state[data-variant="orbit"] .es-orbit,
+    #empty-state[data-variant="ripple"] .es-ripple {
+      display: block;
+    }
+
+    #empty-state .es-glow {
+      transform-box: view-box;
+      transform-origin: 120px 120px;
+      animation: es-breathe 6.4s ease-in-out infinite;
+    }
+
+    #empty-state .es-card rect {
+      fill: var(--es-card);
+      stroke: var(--es-stroke);
+      stroke-width: 1.5;
+    }
+
+    #empty-state .es-card-front rect {
+      fill: var(--es-card-front);
+      filter: drop-shadow(0 12px 18px var(--es-shadow));
+    }
+
+    #empty-state .es-bob {
+      animation: es-bob 4.4s ease-in-out infinite;
+    }
+
+    #empty-state .es-bob-2 {
+      animation-delay: -1.45s;
+    }
+
+    #empty-state .es-bob-3 {
+      animation-delay: -2.9s;
+    }
+
+    #empty-state .es-dot {
+      fill: var(--es-accent);
+    }
+
+    #empty-state .es-dot-soft {
+      fill: var(--es-accent);
+      opacity: 0.42;
+    }
+
+    #empty-state .es-orbiter {
+      transform-box: view-box;
+      transform-origin: 120px 120px;
+      animation: es-spin 18s linear infinite;
+    }
+
+    #empty-state .es-orbiter-b {
+      animation-duration: 27s;
+      animation-direction: reverse;
+    }
+
+    #empty-state .es-orbiter-c {
+      animation-duration: 14s;
+    }
+
+    #empty-state .es-orbiter-d {
+      animation-duration: 22s;
+      animation-direction: reverse;
+    }
+
+    #empty-state .es-ring {
+      fill: none;
+      stroke: var(--es-stroke);
+      stroke-width: 1.5;
+      stroke-dasharray: 3 9;
+      stroke-linecap: round;
+    }
+
+    #empty-state .es-ring-accent {
+      stroke: var(--es-accent);
+      opacity: 0.45;
+    }
+
+    #empty-state .es-spin {
+      transform-box: view-box;
+      transform-origin: 120px 120px;
+      animation: es-spin 44s linear infinite;
+    }
+
+    #empty-state .es-spin-rev {
+      animation-duration: 58s;
+      animation-direction: reverse;
+    }
+
+    #empty-state .es-core {
+      transform-box: view-box;
+      transform-origin: 120px 120px;
+      animation: es-core 5.2s ease-in-out infinite;
+    }
+
+    #empty-state .es-core rect {
+      fill: var(--es-card-front);
+      stroke: var(--es-stroke);
+      stroke-width: 1.5;
+      filter: drop-shadow(0 12px 18px var(--es-shadow));
+    }
+
+    #empty-state .es-ripple-ring {
+      fill: none;
+      stroke: var(--es-accent);
+      stroke-width: 1.5;
+      transform-box: view-box;
+      transform-origin: 120px 120px;
+      animation: es-ripple 3.9s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+    }
+
+    #empty-state .es-ripple-ring:nth-of-type(2) {
+      animation-delay: -1.3s;
+    }
+
+    #empty-state .es-ripple-ring:nth-of-type(3) {
+      animation-delay: -2.6s;
+    }
+
+    @keyframes es-bob {
+      0%,
+      100% {
+        transform: translateY(-6px);
+      }
+      50% {
+        transform: translateY(6px);
+      }
+    }
+
+    @keyframes es-breathe {
+      0%,
+      100% {
+        transform: scale(0.96);
+        opacity: 0.72;
+      }
+      50% {
+        transform: scale(1.06);
+        opacity: 1;
+      }
+    }
+
+    @keyframes es-spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes es-core {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes es-ripple {
+      0% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(2.1);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      #empty-state .es-panel {
+        min-height: 280px;
+        padding: 28px 18px;
+        border-radius: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #empty-state .es-art * {
+        animation: none !important;
+      }
+    }
+  </style>
+
+  <div class="es-panel">
+    <div class="es-stage">
+      <svg
+        class="es-art"
+        viewBox="0 0 240 240"
+        role="img"
+        aria-label="空状态占位"
+      >
+        <defs>
+          <radialGradient id="es-halo-grad" cx="50%" cy="50%" r="50%">
+            <stop class="es-halo-stop" offset="0%" />
+            <stop class="es-halo-stop-mid" offset="58%" />
+            <stop class="es-halo-stop-end" offset="100%" />
+          </radialGradient>
+          <style>
+            #empty-state .es-halo-stop {
+              stop-color: var(--es-accent);
+              stop-opacity: 0.3;
+            }
+            #empty-state .es-halo-stop-mid {
+              stop-color: var(--es-accent);
+              stop-opacity: 0.11;
+            }
+            #empty-state .es-halo-stop-end {
+              stop-color: var(--es-accent);
+              stop-opacity: 0;
+            }
+          </style>
+        </defs>
+
+        <g class="es-v es-layers">
+          <circle class="es-glow" cx="120" cy="120" r="98" fill="url(#es-halo-grad)" />
+          <g class="es-orbiter es-orbiter-a">
+            <circle class="es-dot" cx="120" cy="27" r="5" />
+          </g>
+          <g class="es-orbiter es-orbiter-b">
+            <circle class="es-dot-soft" cx="120" cy="45" r="3.5" />
+          </g>
+          <g class="es-card es-card-back" transform="rotate(-13 120 120)">
+            <g class="es-bob es-bob-1">
+              <rect x="64" y="68" width="112" height="76" rx="20" />
+            </g>
+          </g>
+          <g class="es-card es-card-mid">
+            <g class="es-bob es-bob-2">
+              <rect x="64" y="82" width="112" height="76" rx="20" />
+            </g>
+          </g>
+          <g class="es-card es-card-front" transform="rotate(13 120 120)">
+            <g class="es-bob es-bob-3">
+              <rect x="64" y="96" width="112" height="76" rx="20" />
+            </g>
+          </g>
+        </g>
+
+        <g class="es-v es-orbit">
+          <circle class="es-glow" cx="120" cy="120" r="98" fill="url(#es-halo-grad)" />
+          <g class="es-spin es-spin-rev">
+            <circle class="es-ring es-ring-accent" cx="120" cy="120" r="90" />
+          </g>
+          <g class="es-spin">
+            <circle class="es-ring" cx="120" cy="120" r="68" />
+          </g>
+          <g class="es-orbiter es-orbiter-c">
+            <circle class="es-dot" cx="120" cy="52" r="5" />
+          </g>
+          <g class="es-orbiter es-orbiter-d">
+            <circle class="es-dot-soft" cx="120" cy="30" r="3.5" />
+          </g>
+          <g class="es-core">
+            <rect x="88" y="88" width="64" height="64" rx="20" />
+          </g>
+        </g>
+
+        <g class="es-v es-ripple">
+          <circle class="es-glow" cx="120" cy="120" r="98" fill="url(#es-halo-grad)" />
+          <rect class="es-ripple-ring" x="88" y="88" width="64" height="64" rx="20" />
+          <rect class="es-ripple-ring" x="88" y="88" width="64" height="64" rx="20" />
+          <rect class="es-ripple-ring" x="88" y="88" width="64" height="64" rx="20" />
+          <g class="es-core">
+            <rect x="88" y="88" width="64" height="64" rx="20" />
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById("empty-state");
+      if (!root) return;
+
+      const state = { variant: "layers", accent: "#5b7cfa", size: 208 };
+
+      const render = () => {
+        root.dataset.variant = state.variant;
+        root.style.setProperty("--es-accent", state.accent);
+        root.style.setProperty("--es-size", `${state.size}px`);
+      };
+      render();
+
+      if (globalThis.Tweak) {
+        const tweak = new Tweak({ container: root, onChange: render });
+        tweak.addSelect(state, "variant", {
+          label: "动画",
+          options: [
+            { label: "层叠卡片", value: "layers" },
+            { label: "轨道环绕", value: "orbit" },
+            { label: "波纹扩散", value: "ripple" },
+          ],
+        });
+        tweak.addColorPicker(state, "accent", {
+          label: "主色",
+          reference: "--es-accent",
+        });
+        tweak.addSlider(state, "size", {
+          label: "尺寸",
+          min: 120,
+          max: 280,
+          step: 8,
+          unit: "px",
+        });
+      }
+    })();
+  </script>
+</div>
+  </body>
+</html>
